@@ -67,6 +67,19 @@ internal static class ClassMetasProvider
 
 		string className = typeDeclarationSyntax.Identifier.Text;
 		string @namespace = typeSymbol.ContainingNamespace.ToDisplayString();
+		var fields = typeDeclarationSyntax.Members
+			.Select(member => member.ToFieldMeta())
+			.Where(x => x != null)
+			.Cast<FieldMeta>()
+			.ToImmutableArray();
+		var methods = typeDeclarationSyntax.Members
+			.OfType<MethodDeclarationSyntax>()
+			.Select(x => x.ToMethodMeta())
+			.ToImmutableArray();
+		var constructor = typeDeclarationSyntax.Members
+			.OfType<ConstructorDeclarationSyntax>()
+			.Select(c => c.ToMethodMeta())
+			.FirstOrDefault();
 		var genericParameterNames = 
 			(typeDeclarationSyntax.TypeParameterList?.Parameters.Count ?? 0) == 0
 			? ImmutableArray<string>.Empty
@@ -82,6 +95,9 @@ internal static class ClassMetasProvider
 			@namespace: @namespace,
 			genericParameterNames: genericParameterNames,
 			usingClauses: usingClauses,
-			possibleTemplates: possibleTemplates);
+			possibleTemplates: possibleTemplates,
+			fields: fields,
+			methods: methods,
+			constructor: constructor);
 	}
 }

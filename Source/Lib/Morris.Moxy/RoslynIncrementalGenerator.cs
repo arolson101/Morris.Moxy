@@ -1,4 +1,6 @@
-﻿using Microsoft.CodeAnalysis;
+﻿//#define ATTACH_DEBUGGER
+
+using Microsoft.CodeAnalysis;
 using Morris.Moxy.Metas.Classes;
 using Morris.Moxy.Metas.ProjectInformation;
 using Morris.Moxy.Metas.Templates;
@@ -13,6 +15,12 @@ public class RoslynIncrementalGenerator : IIncrementalGenerator
 {
 	public void Initialize(IncrementalGeneratorInitializationContext context)
 	{
+#if ATTACH_DEBUGGER
+		if (!System.Diagnostics.Debugger.IsAttached)
+		{
+			System.Diagnostics.Debugger.Launch();
+		}
+#endif
 		IncrementalValueProvider<ProjectInformationMeta> projectInformationProvider = context.CreateProjectInformationProvider();
 		IncrementalValuesProvider<ValidatedResult<ParsedTemplate>> parsedTemplatesProvider = context.CreateParsedTemplatesProvider();
 		IncrementalValuesProvider<ValidatedResult<CompiledTemplate>> compiledTemplatesProvider = parsedTemplatesProvider.CreateCompiledTemplateProvider();
