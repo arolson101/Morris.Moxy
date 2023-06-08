@@ -67,6 +67,7 @@ internal static class ClassMetasProvider
 
 		string className = typeDeclarationSyntax.Identifier.Text;
 		string @namespace = typeSymbol.ContainingNamespace.ToDisplayString();
+		bool isSealed = typeDeclarationSyntax.Modifiers.Any(mod => mod.Text == "sealed");
 		var fields = typeDeclarationSyntax.Members
 			.Select(member => member.ToFieldMeta())
 			.Where(x => x != null)
@@ -96,6 +97,7 @@ internal static class ClassMetasProvider
 			genericParameterNames: genericParameterNames,
 			usingClauses: usingClauses,
 			possibleTemplates: possibleTemplates,
+			isSealed: isSealed,
 			fields: fields,
 			methods: methods,
 			constructor: constructor);

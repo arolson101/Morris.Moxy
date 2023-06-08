@@ -96,6 +96,7 @@ internal static class ClassSourceGenerator
 		var classVariable = new ClassVariable(
 			name: classMeta.ClassName,
 			@namespace: classMeta.Namespace,
+			isSealed: classMeta.IsSealed,
 			fields: classMeta.Fields,
 			methods: classMeta.Methods,
 			constructor: classMeta.Constructor);

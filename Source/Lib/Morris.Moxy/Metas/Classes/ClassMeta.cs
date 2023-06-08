@@ -12,6 +12,7 @@ internal class ClassMeta : IEquatable<ClassMeta>
 	public readonly ImmutableArray<string> UsingClauses;
 	public readonly ImmutableArray<AttributeInstance> PossibleTemplates;
 	public readonly string GenericParametersSignature;
+	public readonly bool IsSealed;
 	public readonly ImmutableArray<FieldMeta> Fields;
 	public readonly ImmutableArray<MethodMeta> Methods;
 	public readonly MethodMeta Constructor;
@@ -28,6 +29,7 @@ internal class ClassMeta : IEquatable<ClassMeta>
 		UsingClauses = ImmutableArray<string>.Empty;
 		PossibleTemplates = ImmutableArray<AttributeInstance>.Empty;
 		GenericParametersSignature = "";
+		IsSealed = false;
 		Fields = ImmutableArray<FieldMeta>.Empty;
 		Methods = ImmutableArray<MethodMeta>.Empty;
 		Constructor = new MethodMeta("", ImmutableArray<ParamMeta>.Empty, ImmutableArray<AttributeMeta>.Empty);
@@ -40,6 +42,7 @@ internal class ClassMeta : IEquatable<ClassMeta>
 		ImmutableArray<string> genericParameterNames,
 		ImmutableArray<string> usingClauses,
 		ImmutableArray<AttributeInstance> possibleTemplates,
+		bool isSealed,
 		ImmutableArray<FieldMeta> fields,
 		ImmutableArray<MethodMeta> methods,
 		MethodMeta? constructor)
@@ -50,6 +53,7 @@ internal class ClassMeta : IEquatable<ClassMeta>
 		GenericParameterNames = genericParameterNames;
 		UsingClauses = usingClauses;
 		PossibleTemplates = possibleTemplates;
+		IsSealed = isSealed;
 		Fields = fields;
 		Methods = methods;
 		Constructor = constructor ?? new MethodMeta("", ImmutableArray<ParamMeta>.Empty, ImmutableArray<AttributeMeta>.Empty);
@@ -96,6 +100,7 @@ internal class ClassMeta : IEquatable<ClassMeta>
 			genericParameterNames: GenericParameterNames,
 			usingClauses: UsingClauses,
 			possibleTemplates: PossibleTemplates,
+			isSealed: IsSealed,
 			fields: Fields,
 			methods: Methods,
 			constructor: Constructor);
