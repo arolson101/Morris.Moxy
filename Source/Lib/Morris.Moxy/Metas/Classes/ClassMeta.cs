@@ -8,14 +8,15 @@ internal class ClassMeta : IEquatable<ClassMeta>
 {
 	public readonly string ClassName;
 	public readonly string Namespace;
+	public readonly string? DeclaringTypeName;
 	public readonly ImmutableArray<string> GenericParameterNames;
-	public readonly ImmutableArray<string> UsingClauses;
 	public readonly ImmutableArray<AttributeInstance> PossibleTemplates;
 	public readonly string GenericParametersSignature;
 	public readonly bool IsSealed;
 	public readonly ImmutableArray<FieldMeta> Fields;
 	public readonly ImmutableArray<MethodMeta> Methods;
 	public readonly MethodMeta Constructor;
+	public readonly ImmutableArray<string> UsingClauses;
 
 	public string FullName => NamespaceHelper.Combine(Namespace, ClassName);
 
@@ -25,8 +26,8 @@ internal class ClassMeta : IEquatable<ClassMeta>
 	{
 		ClassName = "";
 		Namespace = "";
+		DeclaringTypeName = string.Empty;
 		GenericParameterNames = ImmutableArray<string>.Empty;
-		UsingClauses = ImmutableArray<string>.Empty;
 		PossibleTemplates = ImmutableArray<AttributeInstance>.Empty;
 		GenericParametersSignature = "";
 		IsSealed = false;
@@ -34,11 +35,13 @@ internal class ClassMeta : IEquatable<ClassMeta>
 		Methods = ImmutableArray<MethodMeta>.Empty;
 		Constructor = new MethodMeta("", ImmutableArray<ParamMeta>.Empty, ImmutableArray<AttributeMeta>.Empty);
 		CachedHashCode = new Lazy<int>(() => typeof(ClassMeta).GetHashCode());
+		UsingClauses = ImmutableArray<string>.Empty;
 	}
 
 	public ClassMeta(
 		string className,
 		string @namespace,
+		string? declaringTypeName,
 		ImmutableArray<string> genericParameterNames,
 		ImmutableArray<string> usingClauses,
 		ImmutableArray<AttributeInstance> possibleTemplates,
@@ -50,6 +53,7 @@ internal class ClassMeta : IEquatable<ClassMeta>
 		GenericParametersSignature = GetGenericParametersSignature(genericParameterNames);
 		ClassName = className + GenericParametersSignature;
 		Namespace = @namespace;
+		DeclaringTypeName = declaringTypeName;
 		GenericParameterNames = genericParameterNames;
 		UsingClauses = usingClauses;
 		PossibleTemplates = possibleTemplates;
@@ -61,6 +65,7 @@ internal class ClassMeta : IEquatable<ClassMeta>
 		CachedHashCode = new Lazy<int>(() => HashCode.Combine(
 			className,
 			@namespace,
+			declaringTypeName,
 			genericParameterNames.GetContentsHashCode(),
 			usingClauses.GetContentsHashCode(),
 			possibleTemplates.GetContentsHashCode(),
@@ -83,12 +88,13 @@ internal class ClassMeta : IEquatable<ClassMeta>
 				: true
 			&& ClassName == other.ClassName
 			&& Namespace == other.Namespace
+			&& DeclaringTypeName == other.DeclaringTypeName
 			&& GenericParameterNames.SequenceEqual(other.GenericParameterNames)
-			&& UsingClauses.SequenceEqual(other.UsingClauses)
 			&& PossibleTemplates.SequenceEqual(other.PossibleTemplates)
 			&& Fields.SequenceEqual(other.Fields)
 			&& Methods.SequenceEqual(other.Methods)
 			&& Constructor == other.Constructor
+			&& UsingClauses.SequenceEqual(other.UsingClauses)
 		);
 
 	public override int GetHashCode() => CachedHashCode.Value;
@@ -96,6 +102,7 @@ internal class ClassMeta : IEquatable<ClassMeta>
 	public ClassMeta WithNamespace(string @namespace) =>
 		new ClassMeta(
 			className: ClassName,
+			declaringTypeName: DeclaringTypeName,
 			@namespace: @namespace,
 			genericParameterNames: GenericParameterNames,
 			usingClauses: UsingClauses,

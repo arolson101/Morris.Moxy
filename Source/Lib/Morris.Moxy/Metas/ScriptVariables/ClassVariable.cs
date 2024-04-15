@@ -11,8 +11,9 @@ public readonly struct ClassVariable
 	public readonly ImmutableArray<FieldMeta> Fields;
 	public readonly ImmutableArray<MethodMeta> Methods;
 	public readonly MethodMeta Constructor;
+	public readonly DeclaringTypeVariable? DeclaringType;
 
-	public ClassVariable(string name, string @namespace, bool isSealed, ImmutableArray<FieldMeta> fields, ImmutableArray<MethodMeta> methods, MethodMeta constructor)
+	public ClassVariable(string name, string @namespace, bool isSealed, ImmutableArray<FieldMeta> fields, ImmutableArray<MethodMeta> methods, MethodMeta constructor, DeclaringTypeVariable? declaringType = null)
 	{
 		Name = name;
 		Namespace = @namespace;
@@ -20,5 +21,6 @@ public readonly struct ClassVariable
 		Fields = fields;
 		Methods = methods;
 		Constructor = constructor;
+		DeclaringType = declaringType;
 	}
 }

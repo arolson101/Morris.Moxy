@@ -81,6 +81,7 @@ internal static class ClassMetasProvider
 			.OfType<ConstructorDeclarationSyntax>()
 			.Select(c => c.ToMethodMeta())
 			.FirstOrDefault();
+		string? declaringTypeName = typeSymbol.ContainingType?.Name; 
 		var genericParameterNames = 
 			(typeDeclarationSyntax.TypeParameterList?.Parameters.Count ?? 0) == 0
 			? ImmutableArray<string>.Empty
@@ -88,12 +89,12 @@ internal static class ClassMetasProvider
 				.TypeParameterList!
 				.Parameters
 				.Select(x => x.Identifier.Text).ToImmutableArray();
-
 		ImmutableArray<string> usingClauses = typeDeclarationSyntax.GetUsingClauses();
 
 		return new ClassMeta(
 			className: className,
 			@namespace: @namespace,
+			declaringTypeName: declaringTypeName,
 			genericParameterNames: genericParameterNames,
 			usingClauses: usingClauses,
 			possibleTemplates: possibleTemplates,
