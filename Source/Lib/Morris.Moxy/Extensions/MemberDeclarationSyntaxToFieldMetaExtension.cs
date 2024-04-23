@@ -48,7 +48,7 @@ internal static class MemberDeclarationSyntaxToFieldMetaExtension
 		return new FieldMeta(
 			Name: name,
 			Type: type,
-			Initializer: initializer ?? "",
+			Initializer: initializer,
 			Writable: writable,
 			Readable: readable,
 			Attributes: attributes);
