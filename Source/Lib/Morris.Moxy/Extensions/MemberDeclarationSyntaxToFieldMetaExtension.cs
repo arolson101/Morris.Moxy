@@ -12,6 +12,7 @@ internal static class MemberDeclarationSyntaxToFieldMetaExtension
 	{
 		string? name;
 		string? type;
+		string? initializer;
 		bool writable;
 		bool readable;
 
@@ -20,6 +21,7 @@ internal static class MemberDeclarationSyntaxToFieldMetaExtension
 			case FieldDeclarationSyntax field:
 				name = field.Declaration.Variables.FirstOrDefault()?.Identifier.Text;
 				type = field.Declaration.Type?.ToString();
+				initializer = field.Declaration.Variables.FirstOrDefault()?.Initializer?.ToString();
 				writable = field.Modifiers.All(m => m.Text != "readonly");
 				readable = true;
 				break;
@@ -27,6 +29,7 @@ internal static class MemberDeclarationSyntaxToFieldMetaExtension
 			case PropertyDeclarationSyntax property:
 				name = property.Identifier.Text;
 				type = property.Type?.ToString();
+				initializer = property.Initializer?.ToString();
 				writable = property.AccessorList?.Accessors.Any(a => a.Keyword.Text == "set") ?? true;
 				readable = property.AccessorList?.Accessors.Any(a => a.Keyword.Text == "get") ?? true;
 				break;
@@ -45,6 +48,7 @@ internal static class MemberDeclarationSyntaxToFieldMetaExtension
 		return new FieldMeta(
 			Name: name,
 			Type: type,
+			Initializer: initializer ?? "",
 			Writable: writable,
 			Readable: readable,
 			Attributes: attributes);

@@ -5,5 +5,5 @@ namespace Morris.Moxy.Metas.Classes;
 public record MethodMeta(
 	string Name,
 	ImmutableArray<ParamMeta> Params,
-	ImmutableArray<AttributeMeta> Attributes
+	ImmutableArray<string> Attributes
 );

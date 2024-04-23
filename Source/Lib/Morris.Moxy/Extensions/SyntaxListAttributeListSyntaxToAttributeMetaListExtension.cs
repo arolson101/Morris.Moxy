@@ -9,7 +9,7 @@ namespace Morris.Moxy.Extensions;
 internal static class SyntaxListAttributeListSyntaxToAttributeMetaListExtension
 {
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public static ImmutableArray<AttributeMeta> ToAttributeMetaList(this SyntaxList<AttributeListSyntax> attributeLists)
+	public static ImmutableArray<string> ToAttributeMetaList(this SyntaxList<AttributeListSyntax> attributeLists)
 	{
 		return attributeLists
 			.Select(a => a.ToAttributeMeta())

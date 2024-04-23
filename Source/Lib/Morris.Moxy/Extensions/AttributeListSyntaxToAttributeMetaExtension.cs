@@ -7,9 +7,9 @@ namespace Morris.Moxy.Extensions;
 internal static class AttributeListSyntaxToAttributeMetaExtension
 {
 	[MethodImpl(MethodImplOptions.AggressiveInlining)]
-	public static AttributeMeta ToAttributeMeta(this AttributeListSyntax attribute)
+	public static string ToAttributeMeta(this AttributeListSyntax attribute)
 	{
 		var name = attribute.Attributes.FirstOrDefault()?.Name.ToFullString() ?? "";
-		return new AttributeMeta(Name: name);
+		return name;
 	}
 }

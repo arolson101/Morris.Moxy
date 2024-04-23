@@ -33,7 +33,7 @@ internal class ClassMeta : IEquatable<ClassMeta>
 		IsSealed = false;
 		Fields = ImmutableArray<FieldMeta>.Empty;
 		Methods = ImmutableArray<MethodMeta>.Empty;
-		Constructor = new MethodMeta("", ImmutableArray<ParamMeta>.Empty, ImmutableArray<AttributeMeta>.Empty);
+		Constructor = new MethodMeta("", ImmutableArray<ParamMeta>.Empty, ImmutableArray<string>.Empty);
 		CachedHashCode = new Lazy<int>(() => typeof(ClassMeta).GetHashCode());
 		UsingClauses = ImmutableArray<string>.Empty;
 	}
@@ -60,7 +60,7 @@ internal class ClassMeta : IEquatable<ClassMeta>
 		IsSealed = isSealed;
 		Fields = fields;
 		Methods = methods;
-		Constructor = constructor ?? new MethodMeta("", ImmutableArray<ParamMeta>.Empty, ImmutableArray<AttributeMeta>.Empty);
+		Constructor = constructor ?? new MethodMeta("", ImmutableArray<ParamMeta>.Empty, ImmutableArray<string>.Empty);
 
 		CachedHashCode = new Lazy<int>(() => HashCode.Combine(
 			className,
